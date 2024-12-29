@@ -23,7 +23,7 @@ public class CharacterMoveSystem : ComponentSystem
         Entities.With(_moveQuery).ForEach(
             (Entity entity, Transform transform, ref InputData inputData, ref MoveData move, ref JerkData jerkData) =>
             {
-            float speed = move.Speed;
+                    float speed = move.Speed;
 
                     // Расчет нового положения
                     var direction = new Vector3(inputData.Move.x, 0, inputData.Move.y).normalized;

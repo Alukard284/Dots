@@ -47,7 +47,7 @@ public struct MoveData: IComponentData
 
 public struct ShootData: IComponentData
 {
-
+    public float ShootSpeed;
 }
 
 public struct JerkData: IComponentData
