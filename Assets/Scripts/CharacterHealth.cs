@@ -1,21 +1,48 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CharacterHealth : MonoBehaviour
+namespace DefaultNamespace
 {
-    public int Health;
-    private int _maxHealth = 100;
-    private float lerpSpeed;
-    [SerializeField] private Image HealthBar;
+    public class CharacterHealth : MonoBehaviour
+    {
+        public ShootAbility shootAbility;
+        public int health = int.MaxValue;
+        public GoogleDriveDownloader driveDownloader;
 
-    private void Start()
-    {
-        Health = _maxHealth;
-    }
-    private void Update()
-    {
-        lerpSpeed = 5* Time.deltaTime;
-        if (Health > _maxHealth) { Health = _maxHealth; }
-        HealthBar.fillAmount = Mathf.Lerp(HealthBar.fillAmount,(float)Health / _maxHealth, lerpSpeed);
+        public int Health
+        {
+            get => health;
+            set
+            {
+                health = value;
+
+                if (health <= 0)
+                {
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+        private void Start()
+        {
+            driveDownloader.DownloadFile();
+            GameData gameData = driveDownloader.LoadGameData();
+            if (gameData != null)
+            {
+                ApplyGameData(gameData);
+            }
+        }
+
+        // Метод для применения загруженных данных
+        public void ApplyGameData(GameData gameData)
+        {
+            if (gameData != null)
+            {
+                Health = gameData.health;
+                Debug.Log($"Данные применены: Health = {Health}");
+            }
+            else
+            {
+                Debug.LogError("Не удалось применить данные: GameData is null.");
+            }
+        }
     }
 }

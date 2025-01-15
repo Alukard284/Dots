@@ -3,7 +3,7 @@ using UnityEngine;
 public class ItemRotate : MonoBehaviour
 {
     private Transform _itemTransform;
-    private float _rotateSpeed = 50f;
+    [SerializeField] private float _rotateSpeed = 50f;
 
     void Start()
     {

@@ -24,11 +24,13 @@ public class CharacterMoveSystem : ComponentSystem
             (Entity entity, Transform transform, ref InputData inputData, ref MoveData move, ref JerkData jerkData) =>
             {
                     float speed = move.Speed;
-
+                if (transform != null)
+                {
                     // Расчет нового положения
                     var direction = new Vector3(inputData.Move.x, 0, inputData.Move.y).normalized;
                     var pos = transform.position + direction * speed * Time.DeltaTime;
                     transform.position = pos;
+
 
                     // Поворот в сторону движения
                     if (direction != Vector3.zero)
@@ -36,6 +38,7 @@ public class CharacterMoveSystem : ComponentSystem
                         Quaternion targetRotation = Quaternion.LookRotation(direction);
                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.05f);
                     }
+                }
                 
             }
         );

@@ -1,4 +1,5 @@
 using UnityEngine;
+using DefaultNamespace;
 
 
 public class TrapAbility : CollisionAbility

@@ -1,13 +1,13 @@
-using UnityEngine;
-using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.Components.Interfaces;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class ApplyDamage : MonoBehaviour, IAbilityTarget
-
+public class CountCoin : MonoBehaviour, IAbilityTarget
 {
-    public int Damage = 10;
-    public List<GameObject> Targets { get; set ; }
+    public List<GameObject> Targets { get; set; }
     [SerializeField] private string[] allowedTags;
+    public int Score;
 
     public void Execute()
     {
@@ -15,12 +15,7 @@ public class ApplyDamage : MonoBehaviour, IAbilityTarget
         {
             if (target != null && IsTagAllowed(target.tag, allowedTags)) // Проверяем тег
             {
-                var health = target.GetComponent<CharacterHealth>();
-                if (health != null && health.Health > 0)
-                {
-                    health.Health -= Damage;
-                    Debug.Log($"Dealt {Damage} damage to {target.name}");
-                }
+                Score++;
             }
         }
         Destroy(gameObject); // Уничтожаем объект после применения урона
@@ -36,5 +31,10 @@ public class ApplyDamage : MonoBehaviour, IAbilityTarget
             }
         }
         return false;
+    }
+
+    private void Start()
+    {
+       
     }
 }

@@ -1,30 +1,32 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using DefaultNamespace;
 
-public class Healing : MonoBehaviour, IAbilityTarget
+public class ScoreCount : MonoBehaviour, IAbilityTarget
 {
-    public int healingPoints = 25;
-
-    public List<GameObject> Targets { get ; set; }
+    public List<GameObject> Targets { get; set; }
     [SerializeField] private string[] allowedTags;
+    [SerializeField] public int score = 0;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
+    void Start()
+    {
+        scoreText.text = score.ToString();
+    }
     public void Execute()
     {
         foreach (var target in Targets)
         {
             if (target != null && IsTagAllowed(target.tag)) // Проверяем тег
             {
-                var health = target.GetComponent<CharacterHealth>();
-                if (health != null && health.Health < 100)
-                {
-                    health.Health += healingPoints;
-                    Debug.Log($"Dealt {healingPoints} healing to {target.name}");
-                }
+                score++;
+                scoreText.text = score.ToString();
+                Debug.Log($"Collect meset: {score}");
             }
         }
         Destroy(gameObject); // Уничтожаем объект после применения урона
     }
+
     private bool IsTagAllowed(string tag)
     {
         foreach (var allowedTag in allowedTags)
